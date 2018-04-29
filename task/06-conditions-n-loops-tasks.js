@@ -30,7 +30,17 @@
  *
  */
 function getFizzBuzz(num) {
-    throw new Error('Not implemented');
+    if (num % 3 === 0) {
+        if (num % 5 === 0) {
+            return new String("FizzBuzz");
+        } else {
+            return new String("Fizz");
+        }
+    } else if (num % 5 === 0) {
+        return new String("Buzz");
+    } else {
+        return num;
+    }
 }
 
 
@@ -46,7 +56,11 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-    throw new Error('Not implemented');
+    var a = 1;
+    for (var i = 1; i <= n; i++) {
+        a = a * i;
+    }
+    return a;
 }
 
 
@@ -63,7 +77,11 @@ function getFactorial(n) {
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
 function getSumBetweenNumbers(n1, n2) {
-    throw new Error('Not implemented');
+    var sum = 0;
+    for (var i = n1; i <= n2; i++) {
+        sum = sum + i;
+    }
+    return sum;
 }
 
 
@@ -81,8 +99,10 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(a,b,c) {
-    throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+    if (a + b <= c || a + c <= b || b + c <= a) {
+        return false;
+    } else return true;
 }
 
 
@@ -119,7 +139,17 @@ function isTriangle(a,b,c) {
  *  
  */
 function doRectanglesOverlap(rect1, rect2) {
-    throw new Error('Not implemented');
+    rect1.bottom = rect1.top + rect1.height;
+    rect2.bottom = rect2.top + rect2.height;
+    rect1.right = rect1.left + rect1.width;
+    rect2.right = rect2.left + rect2.width;
+    var t1 = rect1.top <= rect2.top && rect1.bottom >= rect2.top;
+    var t2 = rect2.top <= rect1.top && rect2.bottom >= rect1.top;
+    var l1 = rect1.left <= rect2.left && rect1.right >= rect2.left;
+    var l2 = rect2.left <= rect1.left && rect2.right >= rect1.left;
+    if ((t1 && l1) || (t1 && l2) || (t2 && l1) || (t2 && l2))
+        return true;
+    return false;
 }
 
 
@@ -150,7 +180,9 @@ function doRectanglesOverlap(rect1, rect2) {
  *   
  */
 function isInsideCircle(circle, point) {
-    throw new Error('Not implemented');
+    if ((Math.sqrt(Math.pow(circle.center.x - point.x, 2) + Math.pow(circle.center.y - point.y, 2))) < (circle.radius))
+        return true;
+    return false;
 }
 
 
@@ -166,7 +198,17 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    throw new Error('Not implemented');
+    for(var i = 0; i<str.length-3;i++){
+        var flag = true;
+        for(var j = i+1 ; j<str.length;j++){
+            if(str.charAt(i)===str.charAt(j)){
+                flag=false;
+                //continue;
+            }
+        }    
+        if(flag) return str.charAt(i);
+    }
+    return null;
 }
 
 
@@ -192,7 +234,19 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    throw new Error('Not implemented');
+    var sorted = [a, b].sort(function (a, b) {
+        return a - b;
+    });
+    var first;
+    var second;
+    if(isStartIncluded){
+        first="["
+    }else first = "("
+    if(isEndIncluded){
+        second="]"
+    }else second = ")"
+
+    return new String(first+sorted[0]+", "+sorted[1]+second);
 }
 
 
@@ -209,7 +263,13 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-    throw new Error('Not implemented');
+    var temp = new String();
+    var i=str.length;
+    for(var k=0; k <= str.length; k++){
+        temp=temp+str.charAt(i);
+        i=i-1;
+    }
+    return temp;
 }
 
 
@@ -443,15 +503,15 @@ module.exports = {
     doRectanglesOverlap: doRectanglesOverlap,
     isInsideCircle: isInsideCircle,
     findFirstSingleChar: findFirstSingleChar,
-    getIntervalString : getIntervalString,
+    getIntervalString: getIntervalString,
     reverseString: reverseString,
     reverseInteger: reverseInteger,
     isCreditCardNumber: isCreditCardNumber,
     getDigitalRoot: getDigitalRoot,
     isBracketsBalanced: isBracketsBalanced,
-    timespanToHumanString : timespanToHumanString,
+    timespanToHumanString: timespanToHumanString,
     toNaryString: toNaryString,
     getCommonDirectoryPath: getCommonDirectoryPath,
     getMatrixProduct: getMatrixProduct,
-    evaluateTicTacToePosition : evaluateTicTacToePosition
+    evaluateTicTacToePosition: evaluateTicTacToePosition
 };
