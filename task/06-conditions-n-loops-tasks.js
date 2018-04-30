@@ -198,15 +198,15 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    for(var i = 0; i<str.length-3;i++){
+    for (var i = 0; i < str.length - 3; i++) {
         var flag = true;
-        for(var j = i+1 ; j<str.length;j++){
-            if(str.charAt(i)===str.charAt(j)){
-                flag=false;
+        for (var j = i + 1; j < str.length; j++) {
+            if (str.charAt(i) === str.charAt(j)) {
+                flag = false;
                 //continue;
             }
-        }    
-        if(flag) return str.charAt(i);
+        }
+        if (flag) return str.charAt(i);
     }
     return null;
 }
@@ -239,14 +239,14 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
     });
     var first;
     var second;
-    if(isStartIncluded){
-        first="["
-    }else first = "("
-    if(isEndIncluded){
-        second="]"
-    }else second = ")"
+    if (isStartIncluded) {
+        first = "["
+    } else first = "("
+    if (isEndIncluded) {
+        second = "]"
+    } else second = ")"
 
-    return new String(first+sorted[0]+", "+sorted[1]+second);
+    return new String(first + sorted[0] + ", " + sorted[1] + second);
 }
 
 
@@ -264,10 +264,10 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  */
 function reverseString(str) {
     var temp = new String();
-    var i=str.length;
-    for(var k=0; k <= str.length; k++){
-        temp=temp+str.charAt(i);
-        i=i-1;
+    var i = str.length;
+    for (var k = 0; k <= str.length; k++) {
+        temp = temp + str.charAt(i);
+        i = i - 1;
     }
     return temp;
 }
@@ -286,7 +286,15 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    throw new Error('Not implemented');
+    var a = num.toString();
+    var j = a.length;
+    var b = new String();
+    for (var i = 0; i <= a.length; i++) {
+        b += a.charAt(j);
+        j--
+    }
+    console.log(b);
+    return new Number(b);
 }
 
 
@@ -330,7 +338,17 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+    var a = new String(num);
+    var sum = 0;
+    for (var i = 0; i < a.length; i++) {
+        sum+=new Number(a.charAt(i));
+    }
+    var b = new String(sum);
+    var sum2 = 0;
+    for (var i = 0; i < b.length; i++) {
+        sum2+=new Number(b.charAt(i));
+    }
+    return sum2;
 }
 
 
