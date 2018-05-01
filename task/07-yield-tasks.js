@@ -33,7 +33,18 @@
  *
  */
 function* get99BottlesOfBeer() {
-    throw new Error('Not implemented');
+    var bottle = (n => n === 1 ? `1 bottle` : `${n} bottles`);
+    for (var i = 99; i >= 1; --i) {
+        yield `${bottle(i)} of beer on the wall, ${bottle(i)} of beer.`;
+        if (i === 1) {
+            yield `Take one down and pass it around, no more bottles of beer on the wall.`;
+        }
+        else {
+            yield `Take one down and pass it around, ${bottle(i - 1)} of beer on the wall.`
+        }
+    }
+    yield 'No more bottles of beer on the wall, no more bottles of beer.';
+    yield 'Go to the store and buy some more, 99 bottles of beer on the wall.'
 }
 
 
@@ -47,7 +58,14 @@ function* get99BottlesOfBeer() {
  *
  */
 function* getFibonacciSequence() {
-    throw new Error('Not implemented');
+    var a = [0, 1]
+    const b = function (c) {
+        a.push(a[c] + a[c + 1])
+        return a[c];
+    }
+    for (var i = 0; i < 40; i++) {
+        yield b(i);
+    }
 }
 
 
@@ -82,7 +100,13 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    throw new Error('Not implemented');
+    var nodes = [root];
+    while (nodes.length) {
+        var curr = nodes.pop();
+        yield curr;
+        if (curr.children)
+            nodes.push(...curr.children.reverse())
+    }
 }
 
 
@@ -108,7 +132,13 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-    throw new Error('Not implemented');
+    var nodes = [root];
+    for (var node of nodes) {
+        yield node;
+        if (node.children) {
+            nodes.push(...node.children)
+        }
+    }
 }
 
 
@@ -126,7 +156,20 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    throw new Error('Not implemented');
+    var first = source1();
+    var second = source2();
+    while (true) {
+        var a = first.next().value;
+        var b = second.next().value;
+        if (a === undefined)
+            yield b;
+        else if (b === undefined)
+            yield a;
+        else {
+            yield Math.min(a, b);
+            yield Math.max(a, b);
+        }
+    }
 }
 
 

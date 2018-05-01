@@ -319,7 +319,17 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    let sum = Array.from(ccn.toString()).reverse().reduce((acc, item, i) => {
+        let curr = parseInt(item);
+        if (i % 2) {
+            curr *= 2
+        }
+        if (curr > 9) {
+            curr -= 9;
+        }
+        return acc + curr
+    }, 0);
+    return !(sum % 10)
 }
 
 
@@ -341,12 +351,12 @@ function getDigitalRoot(num) {
     var a = new String(num);
     var sum = 0;
     for (var i = 0; i < a.length; i++) {
-        sum+=new Number(a.charAt(i));
+        sum += new Number(a.charAt(i));
     }
     var b = new String(sum);
     var sum2 = 0;
     for (var i = 0; i < b.length; i++) {
-        sum2+=new Number(b.charAt(i));
+        sum2 += new Number(b.charAt(i));
     }
     return sum2;
 }
@@ -374,8 +384,12 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true 
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
-}
+    while(true) {
+        var s = str.replace(/<>|\(\)|\[]|{}/, '');
+        if(s === str)
+            return !s.length;
+        str = s;
+}}
 
 
 /**
@@ -410,9 +424,24 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    throw new Error('Not implemented');
+    let time = (endDate - startDate-0.1)/1000;
+    const min = 60;
+    const hour = min*60;
+    const day = hour*24;
+    const month = day*30;
+    const year = day*365;
+    return time<=45?'a few seconds ago':
+        time<=90?'a minute ago':
+            time<=45*min?`${Math.round(time/min)} minutes ago`:
+                time<=90*min?'an hour ago':
+                    time<=22*hour?`${Math.round(time/hour)} hours ago`:
+                        time<=36*hour?'a day ago':
+                            time<=25*day?`${Math.round(time/day)} days ago`:
+                                time<=45*day?'a month ago':
+                                    time<=345*day?`${Math.round(time/month)} months ago`:
+                                        time<=545*day?'a year ago':
+                                            `${Math.round(time/year)} years ago`
 }
-
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n<=10) representation of specified number.
@@ -434,7 +463,7 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    return num.toString(n);
 }
 
 
@@ -474,9 +503,17 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-    throw new Error('Not implemented');
+    var rows = m1.length;
+    var columns = m2[0].length;
+    var prod = new Array(rows).fill([]).map(() => {
+        return new Array(columns).fill(0);
+    });
+    for(var i=0;i<rows;i++)
+        for(var j=0;j<columns;j++)
+            for(var k=0; k<m2.length;k++)
+                prod[i][j] += m1[i][k]*m2[k][j]
+    return prod;
 }
-
 
 /**
  * Returns the evaluation of the specified tic-tac-toe position.
@@ -509,7 +546,25 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
+    let transpose = (matrix) => {
+        let arr = matrix.slice();
+        arr = arr.map((col, i) => arr.map(row => row[i]));
+        return arr;
+    };
+    let checkRowsColumns = (pos) => {
+        for(let row of pos){
+            let occ = row.toString().match(new RegExp(`${row[0]}`, 'g'));
+            if(occ && occ.length === 3){
+                return row[0];
+            }
+        }
+    };
+    let checkDiagonal = (pos) => {
+        return pos.reduce((acc, row, i) => {
+            return acc+row[i]
+        }, '').match(new RegExp(`${pos[0][0]}`, 'g')).length === 3?pos[0][0]:undefined
+    };
+    return checkRowsColumns(position)||checkRowsColumns(transpose(position))||checkDiagonal(position)||checkDiagonal(position.reverse())
 }
 
 
