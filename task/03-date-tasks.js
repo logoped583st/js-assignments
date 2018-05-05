@@ -85,26 +85,39 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-    throw new Error('Not implemented');
-}
-
-
-/**
- * Returns the angle (in radians) between the hands of an analog clock for the specified Greenwich time.
- * If you have problem with solution please read: https://en.wikipedia.org/wiki/Clock_angle_problem
- * 
- * @param {date} date
- * @return {number}
- *
- * @example:
- *    Date.UTC(2016,2,5, 0, 0) => 0
- *    Date.UTC(2016,3,5, 3, 0) => Math.PI/2
- *    Date.UTC(2016,3,5,18, 0) => Math.PI
- *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
- */
-function angleBetweenClockHands(date) {
-    throw new Error('Not implemented');
-}
+    var mseconds = endDate.getUTCMilliseconds() - startDate.getUTCMilliseconds();
+    var seconds = endDate.getUTCSeconds() - startDate.getUTCSeconds();
+    var minutes = endDate.getUTCMinutes() - startDate.getUTCMinutes();
+    var hours = endDate.getUTCHours() - startDate.getUTCHours();
+    return (hours<10?'0'+hours:hours)+':'+(minutes<10?'0'+minutes:minutes)+':'+(seconds<10?'0'+seconds:seconds)+'.'+(mseconds<10?'00'+mseconds:mseconds<100?'0'+mseconds:mseconds)
+ }
+ 
+ 
+ /**
+  * Returns the angle (in radians) between the hands of an analog clock for the specified Greenwich time.
+  * If you have problem with solution please read: https://en.wikipedia.org/wiki/Clock_angle_problem
+  * 
+  * @param {date} date
+  * @return {number}
+  *
+  * @example:
+  *    Date.UTC(2016,2,5, 0, 0) => 0
+  *    Date.UTC(2016,3,5, 3, 0) => Math.PI/2
+  *    Date.UTC(2016,3,5,18, 0) => Math.PI
+  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
+  */
+ function angleBetweenClockHands(date) {
+     var minutes = date.getUTCMinutes()*6;
+     var hours;
+     if (date.getUTCHours() > 12) {
+         hours = ((date.getUTCHours() - 12) * 30) + (0.5 * date.getUTCMinutes());
+     }
+     else{
+         hours = (date.getUTCHours() * 30) + (0.5 * date.getUTCMinutes());
+     }
+     return Math.min(Math.abs(minutes-hours)*(Math.PI/180), 2*Math.PI-Math.abs(minutes-hours)*(Math.PI/180));
+ 
+ }
 
 
 module.exports = {
